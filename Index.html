@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise ❤️</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#ffe5dc,#fff7f2);
+  color:#49352e;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+
+.box{
+  width:100%;
+  max-width:500px;
+  background:white;
+  border-radius:28px;
+  padding:30px 22px;
+  text-align:center;
+  box-shadow:0 10px 35px #00000018;
+}
+
+.step{
+  display:none;
+  animation:fade .6s ease;
+}
+
+.step.active{
+  display:block;
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(15px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.emoji{
+  font-size:55px;
+  margin-bottom:10px;
+}
+
+h1{
+  font-size:30px;
+  margin:10px 0;
+}
+
+h2{
+  font-size:25px;
+}
+
+p{
+  font-size:17px;
+  line-height:1.6;
+}
+
+input,textarea{
+  width:100%;
+  padding:15px;
+  margin:8px 0;
+  border:1px solid #eee;
+  border-radius:15px;
+  font-size:16px;
+  outline:none;
+}
+
+button{
+  border:0;
+  background:linear-gradient(90deg,#ff9d91,#ffc98f);
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  padding:15px 30px;
+  border-radius:30px;
+  margin-top:15px;
+  cursor:pointer;
+}
+
+.progress{
+  font-size:14px;
+  margin-bottom:20px;
+  color:#a07860;
+}
+
+.photos{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:20px 0;
+}
+
+.photo{
+  height:170px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#ffd5cc,#ffeac2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+}
+
+.heart{
+  font-size:70px;
+  animation:beat 1s infinite;
+}
+
+@keyframes beat{
+  50%{transform:scale(1.15)}
+}
+
+.small{
+  font-size:14px;
+  color:#98796b;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<!-- STEP 1 -->
+<div class="step active" id="step1">
+  <div class="progress">🎈 Step 1 of 5</div>
+  <div class="emoji">⭐</div>
+
+  <h1>Who's the birthday star?</h1>
+  <p>You are about to make someone's day unforgettable 🎀</p>
+
+  <input id="gfName" placeholder="Her name ❤️">
+  <input id="yourName" placeholder="Your name ❤️">
+  <input id="age" placeholder="Her age">
+
+  <button onclick="nextStep(2)">Let's begin 🎂</button>
+</div>
+
+
+<!-- STEP 2 -->
+<div class="step" id="step2">
+  <div class="progress">🎈 Step 2 of 5</div>
+  <div class="emoji">🎂</div>
+
+  <h1>Something special is waiting...</h1>
+
+  <p>
+    <span id="showName">My Love</span>,<br>
+    today is not just another day...
+    today is the day you came into this world. ❤️
+  </p>
+
+  <button onclick="nextStep(3)">Continue ✨</button>
+</div>
+
+
+<!-- STEP 3 -->
+<div class="step" id="step3">
+  <div class="progress">🎈 Step 3 of 5</div>
+
+  <h2>Our Beautiful Memories 📸</h2>
+
+  <p class="small">
+    Yahan baad mein apni photos add karenge ❤️
+  </p>
+
+  <div class="photos">
+    <div class="photo">📷</div>
+    <div class="photo">❤️</div>
+    <div class="photo">🥰</div>
+    <div class="photo">✨</div>
+  </div>
+
+  <button onclick="nextStep(4)">Our Story 💕</button>
+</div>
+
+
+<!-- STEP 4 -->
+<div class="step" id="step4">
+  <div class="progress">🎈 Step 4 of 5</div>
+  <div class="emoji">💌</div>
+
+  <h2>A Little Message For You</h2>
+
+  <p>
+    Meri jaan ❤️<br><br>
+
+    Tum meri zindagi ka woh khoobsurat hissa ho
+    jise main kabhi khona nahi chahta.
+    Tumhari smile meri favourite cheez hai. 🥹❤️
+    <br><br>
+    Bas hamesha mere saath rehna. 🫶🏻
+  </p>
+
+  <button onclick="nextStep(5)">One Last Surprise 🎁</button>
+</div>
+
+
+<!-- STEP 5 -->
+<div class="step" id="step5">
+  <div class="progress">🎈 Step 5 of 5</div>
+
+  <div class="heart">❤️</div>
+
+  <h1>Happy Birthday!</h1>
+
+  <h2 id="finalName">My Love 🥹❤️</h2>
+
+  <p>
+    May your smile always stay this beautiful.
+    <br><br>
+    I love you so much. ❤️
+  </p>
+
+  <p>— <span id="fromName">Someone who loves you</span> 🫶🏻</p>
+
+  <button onclick="location.reload()">Replay 🔄</button>
+</div>
+
+</div>
+
+
+<script>
+function nextStep(number){
+
+  document.querySelectorAll(".step").forEach(function(step){
+    step.classList.remove("active");
+  });
+
+  document.getElementById("step"+number).classList.add("active");
+
+  let gf=document.getElementById("gfName").value;
+  let you=document.getElementById("yourName").value;
+
+  if(gf){
+    document.getElementById("showName").innerText=gf;
+    document.getElementById("finalName").innerText=
+      "Happy Birthday "+gf+" 🥹❤️";
+  }
+
+  if(you){
+    document.getElementById("fromName").innerText=you;
+  }
+}
+</script>
+
+</body>
+</html>
