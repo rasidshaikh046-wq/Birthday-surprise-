@@ -1,780 +1,1272 @@
+const SUPABASE_URL = "PASTE_YOUR_SUPABASE_URL";
+https://dkjvctvuprkouvjzujrg.supabase.com
+const SUPABASE_KEY = "PASTE_YOUR_PUBLISHABLE_KEY";
+sb_publishable_V_m8nrWN8J5pQNpSWnaJBw_pueuW-NN
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>A Special Birthday Surprise ❤️</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>A Little Surprise ❤️</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap');
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;font-family:Georgia,serif;background:#070511;color:white}
+body{overflow:hidden}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
 
-*{
- box-sizing:border-box;
- margin:0;
- padding:0;
- -webkit-tap-highlight-color:transparent;
-}
-
-html,body{
+#app{
  width:100%;
  height:100%;
+ position:relative;
  overflow:hidden;
-}
-
-body{
- font-family:Poppins,sans-serif;
- background:#05020a;
- color:white;
-}
-
-#sky{
- position:fixed;
- inset:0;
  background:
- radial-gradient(circle at 20% 20%,rgba(255,30,130,.25),transparent 30%),
- radial-gradient(circle at 80% 30%,rgba(100,50,255,.22),transparent 32%),
- radial-gradient(circle at 50% 100%,rgba(255,70,150,.18),transparent 40%),
- linear-gradient(145deg,#030108,#17051e,#05020a);
- overflow:hidden;
+ radial-gradient(circle at 50% 20%,#312052 0,#10091d 42%,#05030a 100%);
 }
 
-.star{
- position:absolute;
- width:2px;
- height:2px;
- background:white;
- border-radius:50%;
- animation:twinkle 2s infinite alternate;
+.stars{
+ position:absolute;inset:0;
+ background-image:
+ radial-gradient(circle,#fff 1px,transparent 1px),
+ radial-gradient(circle,#fff 1px,transparent 1px);
+ background-size:90px 90px,140px 140px;
+ background-position:10px 20px,50px 70px;
+ opacity:.28;
+ animation:starMove 18s linear infinite;
 }
+@keyframes starMove{to{background-position:100px 120px,0 0}}
 
-@keyframes twinkle{
- from{opacity:.15;transform:scale(.5)}
- to{opacity:1;transform:scale(1.6)}
-}
-
-.scene{
- position:fixed;
- inset:0;
- z-index:5;
+.screen{
+ position:absolute;inset:0;
  display:none;
  align-items:center;
  justify-content:center;
- text-align:center;
  padding:22px;
- overflow-y:auto;
+ z-index:5;
+}
+.screen.active{display:flex}
+
+.card{
+ width:min(520px,94vw);
+ max-height:94vh;
+ overflow:auto;
+ background:rgba(16,10,28,.82);
+ border:1px solid rgba(255,255,255,.14);
+ border-radius:28px;
+ padding:25px;
+ box-shadow:0 20px 80px rgba(0,0,0,.55);
+ backdrop-filter:blur(14px);
 }
 
-.scene.active{
- display:flex;
- animation:sceneIn 1s ease;
+h1,h2{text-align:center;margin-top:0}
+h1{font-size:34px}
+h2{font-size:27px}
+
+.sub{
+ text-align:center;
+ color:#d8cde6;
+ line-height:1.6;
 }
 
-@keyframes sceneIn{
- from{opacity:0;transform:scale(1.04)}
- to{opacity:1;transform:scale(1)}
-}
-
-.content{
+input,textarea{
  width:100%;
- max-width:520px;
-}
-
-.kicker{
- font-size:10px;
- letter-spacing:4px;
- color:#ffb8d7;
- margin-bottom:18px;
-}
-
-.script{
- font-family:'Great Vibes',cursive;
- font-size:58px;
- color:#ff9bc9;
- text-shadow:0 0 30px rgba(255,50,140,.8);
-}
-
-h1{
- font-size:25px;
- line-height:1.45;
- margin:18px 0;
-}
-
-p{
- font-size:13px;
- line-height:1.9;
- color:#eadfea;
-}
-
-.btn{
- border:0;
- color:white;
- background:linear-gradient(100deg,#ff3288,#8f45ff);
- padding:15px 27px;
- margin-top:25px;
- border-radius:50px;
- font-family:Poppins;
- font-size:13px;
- font-weight:600;
- box-shadow:0 12px 35px rgba(255,40,140,.35);
-}
-
-.btn:active{
- transform:scale(.93);
-}
-
-.bigHeart{
- font-size:95px;
- animation:heartbeat 1.2s infinite;
- filter:drop-shadow(0 0 30px #ff398b);
-}
-
-@keyframes heartbeat{
- 0%,100%{transform:scale(1)}
- 15%{transform:scale(1.18)}
- 30%{transform:scale(1)}
- 45%{transform:scale(1.12)}
-}
-
-.balloon{
- width:115px;
- height:150px;
- margin:45px auto;
- border-radius:50%;
- background:radial-gradient(circle at 30% 20%,white 0 4%,transparent 5%),
- linear-gradient(145deg,#ff9bc2,#dc176b);
- box-shadow:0 0 45px rgba(255,30,120,.7);
- animation:float 2.5s infinite;
-}
-
-@keyframes float{
- 50%{transform:translateY(-18px)}
-}
-
-.magic{
- font-size:80px;
- margin:35px 0;
- animation:heartbeat 1.2s infinite;
-}
-
-.memory{
- position:relative;
- margin:25px auto;
- width:275px;
- height:340px;
- padding:8px;
- border-radius:20px;
- background:linear-gradient(145deg,#ff6dab,#9145ff);
- box-shadow:0 20px 70px rgba(0,0,0,.7);
- transform:rotate(-2deg);
-}
-
-.memory img{
- width:100%;
- height:100%;
- object-fit:cover;
+ margin:7px 0 12px;
+ padding:14px;
  border-radius:14px;
+ border:1px solid #ffffff22;
+ background:#ffffff0c;
+ color:white;
+ outline:none;
+}
+textarea{min-height:100px;resize:vertical}
+
+label{
  display:block;
- background:#180d20;
+ margin-top:12px;
+ color:#ddd;
+ font-size:14px;
 }
 
-.caption{
- font-family:'Great Vibes',cursive;
- font-size:29px;
- color:#ffb0d2;
- margin-top:14px;
+.mainBtn{
+ width:100%;
+ padding:15px;
+ border:0;
+ border-radius:18px;
+ color:white;
+ background:linear-gradient(135deg,#ff4f91,#9b5cff);
+ box-shadow:0 10px 30px #0005;
+ margin-top:10px;
+ font-weight:bold;
 }
 
-.letter{
- text-align:left;
- max-height:57vh;
- overflow-y:auto;
- padding:24px;
- border-radius:22px;
- background:rgba(255,255,255,.055);
- border:1px solid rgba(255,255,255,.12);
- box-shadow:inset 0 0 35px rgba(255,255,255,.02);
+.secondary{
+ background:#ffffff12;
+ border:1px solid #ffffff22;
 }
 
-.letter p{
+.small{
+ font-size:12px;
+ color:#aaa;
+ text-align:center;
+ margin-top:10px;
+}
+
+.sceneTitle{
+ font-size:34px;
+ text-align:center;
+ text-shadow:0 5px 25px #000;
+}
+
+.sceneText{
+ text-align:center;
+ max-width:600px;
+ line-height:1.7;
+ color:#eee;
+}
+
+.next{
+ position:absolute;
+ bottom:28px;
+ left:50%;
+ transform:translateX(-50%);
+ padding:13px 27px;
+ border-radius:30px;
+ border:1px solid #ffffff33;
+ background:#ffffff15;
+ color:white;
+ z-index:20;
+}
+
+.hint{
+ position:absolute;
+ bottom:88px;
+ left:0;
+ right:0;
+ text-align:center;
+ color:#bbb;
  font-size:13px;
- line-height:2;
+}
+
+.doorArea{
+ width:min(330px,82vw);
+ height:430px;
+ position:relative;
+ perspective:1000px;
+}
+
+.doorFrame{
+ position:absolute;
+ inset:0;
+ border:18px solid #493020;
+ border-radius:8px;
+ background:#170e0a;
+ box-shadow:0 30px 70px #000;
+ overflow:hidden;
+}
+
+.roomBehind{
+ position:absolute;
+ inset:15px;
+ background:
+ radial-gradient(circle at 50% 30%,#ffcf8a33,transparent 30%),
+ linear-gradient(#24162e,#0a0710);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ flex-direction:column;
+}
+
+.door{
+ position:absolute;
+ inset:0;
+ background:
+ linear-gradient(90deg,#512f25,#7d4934 45%,#4b291f);
+ transform-origin:left center;
+ transition:transform 1.7s cubic-bezier(.2,.8,.2,1);
+ z-index:3;
+ border:5px solid #9a6144;
+}
+.door.open{transform:rotateY(-110deg)}
+
+.knob{
+ position:absolute;
+ right:28px;
+ top:52%;
+ width:20px;height:20px;
+ border-radius:50%;
+ background:#e4b95c;
+ box-shadow:0 0 12px #e4b95c;
+}
+
+.balloons{
+ display:flex;
+ flex-wrap:wrap;
+ justify-content:center;
+ gap:25px;
+ max-width:500px;
+}
+.balloon{
+ width:90px;height:112px;
+ border-radius:50% 50% 48% 48%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:25px;
+ position:relative;
+ animation:float 3s ease-in-out infinite;
+ border:2px solid #ffffff33;
+ box-shadow:inset -12px -12px 25px #0004,0 15px 35px #0005;
+}
+.balloon:after{
+ content:"";
+ position:absolute;
+ width:1px;height:55px;
+ background:#aaa;
+ bottom:-52px;
+}
+.balloon:nth-child(1){background:#e94876}
+.balloon:nth-child(2){background:#7654e8}
+.balloon:nth-child(3){background:#2eaa9b}
+.balloon:nth-child(4){background:#e3a62e}
+@keyframes float{50%{transform:translateY(-13px) rotate(2deg)}}
+.balloon.popped{
+ animation:pop .35s forwards;
+ pointer-events:none;
+}
+@keyframes pop{
+ 50%{transform:scale(1.25)}
+ 100%{transform:scale(0);opacity:0}
+}
+
+.reason{
+ position:fixed;
+ left:50%;
+ top:50%;
+ transform:translate(-50%,-50%);
+ width:min(340px,86vw);
+ padding:25px;
+ background:#fff;
+ color:#24172c;
+ border-radius:22px;
+ text-align:center;
+ z-index:100;
+ box-shadow:0 20px 70px #000;
+ display:none;
+}
+.reason.show{display:block}
+.reason button{
+ border:0;
+ border-radius:20px;
+ padding:10px 22px;
+ background:#24172c;
+ color:white;
+ margin-top:15px;
+}
+
+.gift{
+ width:210px;height:150px;
+ position:relative;
+ margin:50px auto;
+ cursor:pointer;
+ filter:drop-shadow(0 25px 25px #0008);
+}
+.box{
+ position:absolute;
+ bottom:0;
+ width:100%;height:115px;
+ background:linear-gradient(135deg,#d93272,#9b2453);
+ border-radius:8px;
+}
+.box:after{
+ content:"";
+ position:absolute;
+ left:43%;
+ width:15%;height:100%;
+ background:#f5c15d;
+}
+.lid{
+ position:absolute;
+ top:0;left:-7px;
+ width:calc(100% + 14px);height:43px;
+ background:#ef4b87;
+ border-radius:8px;
+ transition:transform 1s,top 1s;
+ z-index:3;
+}
+.gift.open .lid{
+ transform:rotate(-18deg) translateY(-55px);
 }
 
 .envelope{
- font-size:100px;
- margin:25px 0;
- animation:float 2s infinite;
-}
-
-.count{
- font-size:85px;
- font-weight:700;
- color:#ff9cc8;
- text-shadow:0 0 30px #ff3b91;
-}
-
-.cake{
+ width:320px;height:210px;
+ background:#eee3c7;
  position:relative;
- width:210px;
- height:170px;
- margin:30px auto;
+ margin:auto;
+ border-radius:8px;
+ box-shadow:0 20px 50px #0009;
+ cursor:pointer;
 }
-
-.layer{
+.envelope:before{
+ content:"";
+ position:absolute;inset:0;
+ background:#d6c49e;
+ clip-path:polygon(0 0,50% 55%,100% 0);
+}
+.seal{
  position:absolute;
- width:190px;
- height:60px;
- left:10px;
- border-radius:13px;
- background:linear-gradient(#ff84b5,#d62974);
- box-shadow:0 15px 25px rgba(0,0,0,.5);
+ width:55px;height:55px;
+ border-radius:50%;
+ background:#b92f58;
+ left:calc(50% - 27px);
+ top:78px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:25px;
+ z-index:4;
+}
+.letter{
+ background:#fff8df;
+ color:#392b20;
+ width:min(520px,92vw);
+ max-height:70vh;
+ overflow:auto;
+ padding:30px;
+ border-radius:5px;
+ box-shadow:0 20px 80px #000;
+ line-height:1.9;
+ transform:rotate(-1deg);
 }
 
-.layer.bottom{bottom:0}
-.layer.top{
- bottom:48px;
- left:30px;
- width:150px;
+.memories{
+ width:min(600px,94vw);
+ display:flex;
+ gap:18px;
+ overflow-x:auto;
+ padding:20px;
+ scroll-snap-type:x mandatory;
 }
-
-.candle{
- position:absolute;
- top:5px;
- left:98px;
- width:14px;
- height:50px;
- background:repeating-linear-gradient(45deg,#fff 0 5px,#ff8bb8 5px 10px);
+.memory{
+ min-width:82vw;
+ max-width:430px;
+ scroll-snap-align:center;
+ background:#fff;
+ padding:10px 10px 35px;
  border-radius:4px;
+ transform:rotate(-2deg);
+ box-shadow:0 20px 60px #0009;
 }
-
-.flame{
- position:absolute;
- width:24px;
- height:32px;
- left:-5px;
- top:-35px;
- border-radius:50%;
- background:#ffd65c;
- box-shadow:0 0 30px #ffb000;
- animation:flame 1s infinite alternate;
+.memory:nth-child(even){transform:rotate(2deg)}
+.memory img{
+ width:100%;
+ aspect-ratio:4/3;
+ object-fit:cover;
+ display:block;
+ background:#ddd;
 }
-
-@keyframes flame{
- to{transform:scale(1.2) translateY(-2px)}
-}
-
-.off .flame{
- display:none;
-}
-
-.final{
- font-family:'Great Vibes',cursive;
- font-size:62px;
- color:#ff9dcc;
- text-shadow:0 0 30px #ff3d91;
-}
-
-.finalHeart{
- font-size:95px;
- animation:heartbeat 1.15s infinite;
-}
-
-#musicBtn{
- position:fixed;
- right:15px;
- top:15px;
- z-index:100;
- width:45px;
- height:45px;
- border-radius:50%;
- border:1px solid rgba(255,255,255,.2);
- background:rgba(255,255,255,.08);
- color:white;
+.caption{
+ color:#332538;
+ text-align:center;
+ margin-top:12px;
  font-size:18px;
 }
 
-.particle{
+.tree{
+ position:relative;
+ width:320px;height:400px;
+ margin:auto;
+}
+.trunk{
+ position:absolute;
+ bottom:0;left:47%;
+ width:25px;height:240px;
+ background:linear-gradient(90deg,#452516,#8a512f,#452516);
+ border-radius:20px;
+}
+.heartPhoto{
+ position:absolute;
+ width:105px;height:105px;
+ object-fit:cover;
+ clip-path:path("M52 94 C45 87 8 63 8 32 C8 12 30 4 52 24 C74 4 97 12 97 32 C97 63 60 87 52 94Z");
+ border:3px solid white;
+ box-shadow:0 10px 30px #0008;
+}
+.hp1{left:10px;top:60px}
+.hp2{right:10px;top:50px}
+.hp3{left:108px;top:5px}
+
+.cake{
+ width:270px;height:170px;
+ position:relative;
+ margin:auto;
+}
+.cakeBase{
+ position:absolute;
+ bottom:0;width:100%;height:100px;
+ background:linear-gradient(#ef78a3,#b83968);
+ border-radius:12px 12px 25px 25px;
+ box-shadow:0 20px 50px #0009;
+}
+.icing{
+ position:absolute;
+ top:52px;width:100%;height:35px;
+ background:#fff0f3;
+ border-radius:50%;
+}
+.candle{
+ position:absolute;
+ top:0;width:13px;height:60px;
+ background:#ffd76b;
+ border-radius:5px;
+}
+.candle:nth-child(1){left:80px}
+.candle:nth-child(2){left:128px}
+.candle:nth-child(3){left:176px}
+.flame{
+ width:18px;height:25px;
+ border-radius:50% 50% 50% 0;
+ background:#ffb52e;
+ transform:rotate(-45deg);
+ position:absolute;
+ top:-27px;left:-2px;
+ animation:flicker .3s infinite alternate;
+}
+@keyframes flicker{to{transform:rotate(-45deg) scale(1.15)}}
+
+.finalHeart{
+ font-size:120px;
+ animation:heartbeat 1.2s infinite;
+ text-align:center;
+}
+@keyframes heartbeat{
+ 50%{transform:scale(1.15)}
+}
+
+#toast{
  position:fixed;
- pointer-events:none;
- z-index:200;
- font-size:22px;
- animation:rise 4s linear forwards;
+ bottom:25px;
+ left:50%;
+ transform:translateX(-50%);
+ background:#fff;
+ color:#201524;
+ padding:14px 20px;
+ border-radius:15px;
+ display:none;
+ z-index:999;
+ max-width:90%;
+ text-align:center;
 }
 
-@keyframes rise{
- to{
-  transform:translateY(-110vh) rotate(360deg);
-  opacity:0;
- }
+.loader{
+ text-align:center;
+ padding:30px;
 }
 
-.confetti{
- position:fixed;
- top:-30px;
- pointer-events:none;
- z-index:300;
- font-size:22px;
- animation:fall 4s linear forwards;
+.progress{
+ width:100%;
+ height:7px;
+ background:#ffffff18;
+ border-radius:10px;
+ overflow:hidden;
+ margin:15px 0;
 }
-
-@keyframes fall{
- to{
-  transform:translateY(115vh) rotate(720deg);
-  opacity:0;
- }
-}
-
-.fadeText{
- animation:textReveal 3s ease forwards;
-}
-
-@keyframes textReveal{
- from{opacity:0;transform:translateY(20px)}
- to{opacity:1;transform:translateY(0)}
-}
-
-@media(max-width:430px){
- .script{font-size:49px}
- .final{font-size:53px}
- .memory{width:245px;height:305px}
- h1{font-size:23px}
+.progress div{
+ height:100%;
+ width:0;
+ background:linear-gradient(90deg,#ff4f91,#a05cff);
+ transition:.3s;
 }
 </style>
 </head>
 
 <body>
 
-<div id="sky"></div>
+<div id="app">
+<div class="stars"></div>
 
-<button id="musicBtn" onclick="musicToggle()">🎵</button>
+<!-- CREATOR -->
+<section id="creator" class="screen active">
+<div class="card">
 
-<audio id="music" loop></audio>
-
-<!-- SCENE 1 -->
-<section class="scene active" id="s1">
-<div class="content">
-<div class="kicker">✦ A LITTLE SURPRISE ✦</div>
-<div class="bigHeart">❤️</div>
-<div class="script fadeText">Just For You...</div>
-<h1>Ek chhoti si duniya banayi hai...<br>sirf meri jaan ke liye. ✨</h1>
-<p>Headphones laga lena 🎧<br>aur thoda waqt lekar dekhna. ❤️</p>
-<button class="btn" onclick="go(2);playMusic(1)">TAP TO ENTER ✨</button>
-</div>
-</section>
-
-<!-- SCENE 2 -->
-<section class="scene" id="s2">
-<div class="content">
-<div class="kicker">✦ CHAPTER ONE ✦</div>
-<div class="script">Once Upon A Time...</div>
-<h1>Ek kahani thi... ❤️</h1>
-<p>Jisme do log mile,<br>aur dheere-dheere ek dusre ki duniya ban gaye.</p>
-<div class="magic">🌙✨</div>
-<button class="btn" onclick="go(3)">Continue ❤️</button>
-</div>
-</section>
-
-<!-- SCENE 3 -->
-<section class="scene" id="s3">
-<div class="content">
-<div class="kicker">✦ A LITTLE MAGIC ✦</div>
-<h1>Ek wish maango... ✨</h1>
-<div class="magic" onclick="magicBurst()">💖</div>
-<p>Heart ko touch karo...</p>
-<button class="btn" onclick="go(4);playMusic(2)">Something Special →</button>
-</div>
-</section>
-
-<!-- SCENE 4 -->
-<section class="scene" id="s4">
-<div class="content">
-<div class="kicker">✦ CHAPTER TWO ✦</div>
-<div class="balloon" onclick="balloonPop()"></div>
-<h1>Is balloon ke andar<br>ek surprise chhupa hai. 🎈</h1>
-<p>Balloon ko tap karo ❤️</p>
-</div>
-</section>
-
-<!-- SCENE 5 -->
-<section class="scene" id="s5">
-<div class="content">
-<div class="kicker">✦ A SPECIAL DAY ✦</div>
-<div class="script">Happy Birthday</div>
-<h1>Today is all about you. 🎂❤️</h1>
-<p>Ek aur beautiful year,<br>aur bahot saari beautiful memories ahead...</p>
-<div class="magic">🎂</div>
-<button class="btn" onclick="go(6)">Our Memories 📸</button>
-</div>
-</section>
-
-<!-- PHOTO 1 -->
-<section class="scene" id="s6">
-<div class="content">
-<div class="kicker">✦ MEMORY 01 ✦</div>
-<div class="memory"><img src="photo1.jpg"></div>
-<div class="caption">Meri Jaan ❤️</div>
-<p>Ek tasveer... aur hazaar feelings.</p>
-<button class="btn" onclick="go(7)">Next Memory ✨</button>
-</div>
-</section>
-
-<!-- PHOTO 2 -->
-<section class="scene" id="s7">
-<div class="content">
-<div class="kicker">✦ MEMORY 02 ✦</div>
-<div class="memory"><img src="photo2.jpg"></div>
-<div class="caption">Meri Khushi 💕</div>
-<p>Tumhari smile mein hi meri favourite feeling hai.</p>
-<button class="btn" onclick="go(8)">Next Memory ✨</button>
-</div>
-</section>
-
-<!-- PHOTO 3 -->
-<section class="scene" id="s8">
-<div class="content">
-<div class="kicker">✦ MEMORY 03 ✦</div>
-<div class="memory"><img src="photo3.jpg"></div>
-<div class="caption">My Favourite Person 🥹</div>
-<p>Kuch moments explain nahi hote... bas feel hote hain.</p>
-<button class="btn" onclick="go(9)">Next Memory ✨</button>
-</div>
-</section>
-
-<!-- PHOTO 4 -->
-<section class="scene" id="s9">
-<div class="content">
-<div class="kicker">✦ MEMORY 04 ✦</div>
-<div class="memory"><img src="photo4.jpg"></div>
-<div class="caption">Forever ❤️</div>
-<p>Har yaad mein tum thodi aur special ho jaati ho.</p>
-<button class="btn" onclick="go(10)">Next Memory ✨</button>
-</div>
-</section>
-
-<!-- PHOTO 5 -->
-<section class="scene" id="s10">
-<div class="content">
-<div class="kicker">✦ MEMORY 05 ✦</div>
-<div class="memory"><img src="photo5.jpg"></div>
-<div class="caption">My Favourite Memory 💖</div>
-<p>Aur meri sabse favourite memory... tum khud ho.</p>
-<button class="btn" onclick="go(11);playMusic(3)">A Letter For You 💌</button>
-</div>
-</section>
-
-<!-- LETTER -->
-<section class="scene" id="s11">
-<div class="content">
-<div class="kicker">✦ FROM MY HEART ✦</div>
-<div class="envelope">💌</div>
-<div class="script">Dear Jaan...</div>
-
-<div class="letter">
-<p>
-<b>Happy Birthday meri shehzadi ❤️</b><br><br>
-
-Aaj vo din hai jab meri pyari shehzadi is duniya mein aayi...<br><br>
-
-Aur tum na aati is duniya mein to phir mera kya hota,
-main kya hota aur kaha hota — ye pata nahi.<br><br>
-
-Lekin meri jaan, tum aayi ho is duniya mein
-to Allah ke hukum se mujhe mili ho. ❤️<br><br>
-
-Main tumhe kabhi kho nahi sakta.<br><br>
-
-Aaj main bahot khush hun. 🥹❤️<br><br>
-
-Aur ek baat...<br><br>
-
-<b>Bahot jald vo din aayega jab hum dono saath mein
-tumhara birthday celebrate karenge, Inshallah. ❤️</b><br><br>
-
-Meri pyari jaan, tum hamesha khush raho.
-Main hamesha aapke saath hun.<br><br>
-
-<b>Aapka pyaar — R. ❤️</b>
+<h1>✨ Create Your Surprise</h1>
+<p class="sub">
+Ek chhota sa form bharna hai. Baaki cinematic surprise khud banega ❤️
 </p>
-</div>
 
-<button class="btn" onclick="go(12)">One Last Journey ✨</button>
-</div>
-</section>
+<label>Recipient ka naam</label>
+<input id="recipient" placeholder="Naam">
 
-<!-- COUNTDOWN -->
-<section class="scene" id="s12">
-<div class="content">
-<div class="kicker">✦ WAIT FOR IT ✦</div>
-<div class="script">Something Beautiful...</div>
-<p>Bas kuch seconds...</p>
-<div class="count" id="counter">3</div>
-<p>❤️✨</p>
-</div>
-</section>
+<label>Tumhara naam</label>
+<input id="sender" placeholder="Tumhara naam">
 
-<!-- CAKE -->
-<section class="scene" id="s13">
-<div class="content">
-<div class="kicker">✦ MAKE A WISH ✦</div>
-<div class="script">Make A Wish</div>
-<h1>Apni aankhein band karo... ❤️</h1>
-<p>Ek beautiful wish maango.<br>Phir candle ko touch karo.</p>
+<label>Age (optional)</label>
+<input id="age" placeholder="Age">
 
-<div class="cake" id="cake" onclick="blowCake()">
-<div class="layer bottom"></div>
-<div class="layer top"></div>
-<div class="candle">
-<div class="flame"></div>
-</div>
-</div>
+<label>Birthday (optional)</label>
+<input id="birthday" placeholder="Birthday">
 
-<p>🎂 Tap the candle</p>
-</div>
-</section>
+<label>🎈 Balloon 1 — ek reason</label>
+<input id="b1" placeholder="I love the way you...">
 
-<!-- FINAL -->
-<section class="scene" id="s14">
-<div class="content">
-<div class="finalHeart">❤️</div>
+<label>🎈 Balloon 2 — ek reason</label>
+<input id="b2" placeholder="You always make me...">
 
-<div class="kicker">✦ FROM MY HEART ✦</div>
+<label>🎈 Balloon 3 — ek reason</label>
+<input id="b3" placeholder="My favourite thing about you...">
 
-<div class="script">Happy Birthday</div>
+<label>🎈 Balloon 4 — ek reason</label>
+<input id="b4" placeholder="One thing I promise...">
 
-<div class="letter">
-<p style="text-align:center">
+<label>💌 Birthday letter</label>
+<textarea id="letter" placeholder="Apne dil ki baat yahan likho..."></textarea>
 
-<b>Happy Birthday meri pyari begam ❤️</b><br><br>
+<label>📸 Photos — maximum 5</label>
+<input id="photos" type="file" accept="image/jpeg,image/png" multiple>
 
-Tum hamesha khush raho.<br><br>
+<label>🎵 Music — maximum 4 MP3 files</label>
+<input id="music" type="file" accept="audio/mpeg,audio/mp3" multiple>
 
-Allah Paak hamesha tumhe khush rakhe,
-tumhari har dua qubool ho. 🤲❤️<br><br>
-
-Aur hum ek din zarur saath mein honge,
-<b>Inshallah. ❤️</b><br><br>
-
-Tumhari smile hamesha aisi hi rahe. 🥹<br><br>
-
-<b>Aapka pyaar,<br>Rashid Shaikh ❤️</b>
-
-</p>
-</div>
-
-<button class="btn" onclick="celebrate()">🎉 Celebrate</button>
-<br>
-<button class="btn" onclick="restart()" style="background:transparent;border:1px solid rgba(255,255,255,.2);box-shadow:none">
-↻ Replay
+<button class="mainBtn" onclick="createSurprise()">
+✨ Craft My Surprise
 </button>
 
+<div class="progress"><div id="progress"></div></div>
+<p id="status" class="small"></p>
+
 </div>
 </section>
+
+
+<!-- WELCOME -->
+<section id="welcome" class="screen">
+<div>
+<h1 class="sceneTitle">Someone made something for you…</h1>
+<p class="sceneText">
+Ye normal birthday wish nahi hai.<br>
+Har cheez ko touch karke discover karna hai.
+</p>
+<button class="next" onclick="goScene(1)">ENTER ✨</button>
+</div>
+</section>
+
+
+<!-- DOOR -->
+<section id="doorScene" class="screen">
+<div>
+<h2 class="sceneTitle">There's a door waiting for you…</h2>
+
+<div class="doorArea" onclick="openDoor()">
+<div class="roomBehind">
+<span style="font-size:50px">🎈</span>
+<p>Something beautiful is inside…</p>
+</div>
+
+<div id="door" class="door">
+<div class="knob"></div>
+</div>
+</div>
+
+<p class="hint">Tap the door to open it</p>
+</div>
+</section>
+
+
+<!-- BALLOONS -->
+<section id="balloonScene" class="screen">
+<div>
+<h2 class="sceneTitle">Pop the balloons 🎈</h2>
+<p class="sceneText">Har balloon ke andar ek chhoti si baat chhupi hai.</p>
+
+<div class="balloons">
+<div class="balloon" onclick="popBalloon(this,0)">♡</div>
+<div class="balloon" onclick="popBalloon(this,1)">♡</div>
+<div class="balloon" onclick="popBalloon(this,2)">♡</div>
+<div class="balloon" onclick="popBalloon(this,3)">♡</div>
+</div>
+
+<button id="balloonNext" class="next" style="display:none" onclick="goScene(3)">
+Aage chalo ❤️
+</button>
+</div>
+</section>
+
+
+<!-- GIFT -->
+<section id="giftScene" class="screen">
+<div>
+<h2 class="sceneTitle">I left something for you 🎁</h2>
+<p class="sceneText">But you have to open it yourself…</p>
+
+<div id="gift" class="gift" onclick="openGift()">
+<div class="box"></div>
+<div class="lid"></div>
+</div>
+
+<button id="giftNext" class="next" style="display:none" onclick="goScene(4)">
+Open the surprise
+</button>
+</div>
+</section>
+
+
+<!-- MEMORIES -->
+<section id="memoryScene" class="screen">
+<div style="width:100%">
+<h2 class="sceneTitle">A walk down memory lane 📸</h2>
+<p class="sceneText">Swipe the cards… slowly.</p>
+<div id="memories" class="memories"></div>
+
+<button class="next" onclick="goScene(5)">Keep going ❤️</button>
+</div>
+</section>
+
+
+<!-- LETTER -->
+<section id="letterScene" class="screen">
+<div>
+<h2 class="sceneTitle">Something I wanted to say…</h2>
+
+<div id="envelope" class="envelope" onclick="openLetter()">
+<div class="seal">♥</div>
+</div>
+
+<p class="hint">Tap the envelope</p>
+
+<div id="letterBox" style="display:none">
+<div class="letter">
+<p id="letterText"></p>
+<p style="text-align:right">— <span id="letterSender"></span></p>
+</div>
+<button class="next" onclick="goScene(6)">Next ❤️</button>
+</div>
+</div>
+</section>
+
+
+<!-- TREE -->
+<section id="treeScene" class="screen">
+<div>
+<h2 class="sceneTitle">Some memories grow with us 🌳</h2>
+
+<div class="tree">
+<div class="trunk"></div>
+<img id="tree1" class="heartPhoto hp1">
+<img id="tree2" class="heartPhoto hp2">
+<img id="tree3" class="heartPhoto hp3">
+</div>
+
+<button class="next" onclick="goScene(7)">One last thing…</button>
+</div>
+</section>
+
+
+<!-- CAKE -->
+<section id="cakeScene" class="screen">
+<div>
+<h2 class="sceneTitle">Make a wish 🎂</h2>
+<p class="sceneText">Tap the candles.</p>
+
+<div class="cake" onclick="blowCandles()">
+<div class="cakeBase"></div>
+<div class="icing"></div>
+<div class="candle"><div class="flame"></div></div>
+<div class="candle"><div class="flame"></div></div>
+<div class="candle"><div class="flame"></div></div>
+</div>
+
+<button id="cakeNext" class="next" style="display:none" onclick="goScene(8)">
+Make your wish ❤️
+</button>
+</div>
+</section>
+
+
+<!-- FINAL -->
+<section id="finalScene" class="screen">
+<div style="text-align:center">
+
+<div class="finalHeart">❤️</div>
+
+<h1 class="sceneTitle">
+Happy Birthday
+<span id="finalName"></span>
+</h1>
+
+<p class="sceneText">
+I hope this little journey made you smile.<br>
+Because you deserve beautiful moments.
+</p>
+
+<p style="font-size:22px">
+With love,<br>
+<strong id="finalSender"></strong>
+</p>
+
+</div>
+</section>
+
+</div>
+
+<div id="toast"></div>
+
 
 <script>
 
-/* STARS */
-for(let i=0;i<150;i++){
- const s=document.createElement("div");
- s.className="star";
- s.style.left=Math.random()*100+"%";
- s.style.top=Math.random()*100+"%";
- s.style.animationDelay=Math.random()*4+"s";
- document.getElementById("sky").appendChild(s);
-}
+/* =========================================================
+   SUPABASE SETTINGS
+   ========================================================= */
 
-/* MUSIC FILES */
-const tracks={
- 1:"music1.mp3",
- 2:"music2.mp3",
- 3:"music3.mp3",
- 4:"music4.mp3"
-};
+const SUPABASE_URL = "PASTE_YOUR_SUPABASE_URL";
+const SUPABASE_KEY = "PASTE_YOUR_PUBLISHABLE_KEY";
 
-const music=document.getElementById("music");
-const musicBtn=document.getElementById("musicBtn");
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
-function playMusic(n){
- music.src=tracks[n];
- music.play().then(()=>{
-   musicBtn.innerText="🔊";
- }).catch(()=>{
-   musicBtn.innerText="🎵";
- });
-}
 
-function musicToggle(){
- if(!music.src){
-   playMusic(1);
+/* =========================================================
+   GLOBAL DATA
+   ========================================================= */
+
+let surprise = null;
+let currentScene = 0;
+let balloonCount = 0;
+let audio = null;
+
+
+/* =========================================================
+   CREATOR
+   ========================================================= */
+
+async function createSurprise(){
+
+ const recipient = document.getElementById("recipient").value.trim();
+ const sender = document.getElementById("sender").value.trim();
+
+ if(!recipient || !sender){
+   showToast("Recipient aur sender ka naam bhar do ❤️");
    return;
  }
 
- if(music.paused){
-   music.play();
-   musicBtn.innerText="🔊";
+ const photos = Array.from(document.getElementById("photos").files).slice(0,5);
+ const music = Array.from(document.getElementById("music").files).slice(0,4);
+
+ const id = crypto.randomUUID();
+
+ setProgress(5,"Surprise prepare ho raha hai…");
+
+ try{
+
+   const photoUrls = [];
+   const musicUrls = [];
+
+   /* PHOTOS */
+
+   for(let i=0;i<photos.length;i++){
+
+     const file = photos[i];
+
+     if(file.size > 5 * 1024 * 1024){
+       throw new Error("Photo "+(i+1)+" 5MB se badi hai.");
+     }
+
+     const ext = file.name.split(".").pop().toLowerCase();
+     const path = id+"/photo_"+i+"."+ext;
+
+     setProgress(
+       10 + i*10,
+       "Photo "+(i+1)+" upload ho rahi hai…"
+     );
+
+     const result = await db.storage
+       .from("birthday-media")
+       .upload(path,file,{
+          upsert:false,
+          contentType:file.type
+       });
+
+     if(result.error) throw result.error;
+
+     const publicUrl = db.storage
+       .from("birthday-media")
+       .getPublicUrl(path).data.publicUrl;
+
+     photoUrls.push(publicUrl);
+   }
+
+
+   /* MUSIC */
+
+   for(let i=0;i<music.length;i++){
+
+     const file = music[i];
+
+     if(file.size > 50 * 1024 * 1024){
+       throw new Error("Music "+(i+1)+" 50MB se badi hai.");
+     }
+
+     const ext = "mp3";
+     const path = id+"/music_"+i+"."+ext;
+
+     setProgress(
+       60 + i*7,
+       "Music "+(i+1)+" upload ho raha hai…"
+     );
+
+     const result = await db.storage
+       .from("birthday-media")
+       .upload(path,file,{
+          upsert:false,
+          contentType:"audio/mpeg"
+       });
+
+     if(result.error) throw result.error;
+
+     const publicUrl = db.storage
+       .from("birthday-media")
+       .getPublicUrl(path).data.publicUrl;
+
+     musicUrls.push(publicUrl);
+   }
+
+
+   /* DATABASE */
+
+   setProgress(90,"Surprise save ho raha hai…");
+
+   const row = {
+     id:id,
+     recipient_name:recipient,
+     sender_name:sender,
+     age:document.getElementById("age").value.trim(),
+     birthday:document.getElementById("birthday").value.trim(),
+
+     balloon1:document.getElementById("b1").value.trim(),
+     balloon2:document.getElementById("b2").value.trim(),
+     balloon3:document.getElementById("b3").value.trim(),
+     balloon4:document.getElementById("b4").value.trim(),
+
+     letter:document.getElementById("letter").value.trim(),
+
+     photo_urls:photoUrls,
+     music_urls:musicUrls
+   };
+
+   const insertResult = await db
+     .from("surprises")
+     .insert(row);
+
+   if(insertResult.error) throw insertResult.error;
+
+
+   setProgress(100,"Surprise ready ❤️");
+
+   const shareUrl =
+     window.location.origin +
+     window.location.pathname +
+     "?s="+encodeURIComponent(id);
+
+   showCreatorSuccess(shareUrl);
+
+ }catch(error){
+
+   console.error(error);
+
+   document.getElementById("status").innerText =
+     "Error: "+(error.message || "Kuch problem ho gayi.");
+
+   showToast("Kuch problem ho gayi. Details neeche dekho.");
+ }
+}
+
+
+function setProgress(value,text){
+
+ document.getElementById("progress").style.width=value+"%";
+ document.getElementById("status").innerText=text;
+}
+
+
+function showCreatorSuccess(url){
+
+ document.querySelector("#creator .card").innerHTML = `
+
+ <h1>🎉 Surprise Ready!</h1>
+
+ <p class="sub">
+ Tera cinematic surprise successfully ban gaya ❤️
+ </p>
+
+ <div style="
+   background:#ffffff0c;
+   border:1px solid #ffffff22;
+   border-radius:16px;
+   padding:15px;
+   word-break:break-all;
+   margin:20px 0;
+ ">
+ ${url}
+ </div>
+
+ <button class="mainBtn" onclick="copyLink('${url}')">
+ 🔗 Copy Surprise Link
+ </button>
+
+ <button class="mainBtn secondary" onclick="window.open('${url}','_blank')">
+ 👀 Preview Surprise
+ </button>
+
+ <p class="small">
+ Ye link jisko bhejoge, wahi surprise dekh sakta hai.
+ </p>
+
+ `;
+}
+
+
+async function copyLink(url){
+
+ try{
+   await navigator.clipboard.writeText(url);
+   showToast("Link copy ho gaya ❤️");
+ }catch{
+   showToast("Link ko long-press karke copy kar lo.");
+ }
+}
+
+
+/* =========================================================
+   RECIPIENT
+   ========================================================= */
+
+async function loadSurprise(){
+
+ const params = new URLSearchParams(window.location.search);
+ const id = params.get("s");
+
+ if(!id) return;
+
+ document.getElementById("creator").classList.remove("active");
+
+ try{
+
+   const result = await db
+     .from("surprises")
+     .select("*")
+     .eq("id",id)
+     .single();
+
+   if(result.error) throw result.error;
+
+   surprise = result.data;
+
+   prepareRecipient();
+
+   goScene(0);
+
+ }catch(error){
+
+   console.error(error);
+
+   document.getElementById("creator").classList.add("active");
+
+   document.querySelector("#creator .card").innerHTML = `
+   <h1>Oops ❤️</h1>
+   <p class="sub">
+   Ye surprise link mil nahi raha.
+   Ho sakta hai link galat ho.
+   </p>
+   `;
+ }
+}
+
+
+function prepareRecipient(){
+
+ document.getElementById("finalName").innerText =
+   surprise.recipient_name || "";
+
+ document.getElementById("finalSender").innerText =
+   surprise.sender_name || "";
+
+ document.getElementById("letterText").innerText =
+   surprise.letter ||
+   "Kuch baatein words se zyada feel hoti hain ❤️";
+
+ document.getElementById("letterSender").innerText =
+   surprise.sender_name || "";
+
+
+ /* MEMORIES */
+
+ const container = document.getElementById("memories");
+
+ container.innerHTML="";
+
+ const photos = Array.isArray(surprise.photo_urls)
+   ? surprise.photo_urls
+   : [];
+
+ if(photos.length===0){
+
+   container.innerHTML=`
+   <div class="memory">
+     <div style="
+       height:280px;
+       display:flex;
+       align-items:center;
+       justify-content:center;
+       color:#333;
+       font-size:20px;
+     ">
+       A beautiful memory belongs here ❤️
+     </div>
+     <div class="caption">Our little memories</div>
+   </div>
+   `;
+
  }else{
-   music.pause();
-   musicBtn.innerText="🎵";
+
+   photos.forEach((url,i)=>{
+
+     const div=document.createElement("div");
+     div.className="memory";
+
+     div.innerHTML=`
+       <img src="${escapeHtml(url)}">
+       <div class="caption">
+         Memory ${i+1} ❤️
+       </div>
+     `;
+
+     container.appendChild(div);
+   });
  }
+
+
+ /* TREE */
+
+ if(photos[0]) document.getElementById("tree1").src=photos[0];
+ if(photos[1]) document.getElementById("tree2").src=photos[1];
+ if(photos[2]) document.getElementById("tree3").src=photos[2];
+
+
+ /* MUSIC */
+
+ startMusic(0);
 }
 
-/* SCENE CHANGE */
-function go(n){
- document.querySelectorAll(".scene").forEach(x=>x.classList.remove("active"));
- document.getElementById("s"+n).classList.add("active");
 
- if(n===12){
-   countdown();
+/* =========================================================
+   SCENES
+   ========================================================= */
+
+const scenes=[
+ "welcome",
+ "doorScene",
+ "balloonScene",
+ "giftScene",
+ "memoryScene",
+ "letterScene",
+ "treeScene",
+ "cakeScene",
+ "finalScene"
+];
+
+
+function goScene(n){
+
+ currentScene=n;
+
+ scenes.forEach(id=>{
+   document.getElementById(id).classList.remove("active");
+ });
+
+ const target=document.getElementById(scenes[n]);
+
+ if(target) target.classList.add("active");
+
+ startMusic(n);
+}
+
+
+function startMusic(scene){
+
+ if(!surprise) return;
+
+ const tracks=Array.isArray(surprise.music_urls)
+   ? surprise.music_urls
+   : [];
+
+ if(!tracks.length) return;
+
+ const index=Math.min(
+   scene,
+   tracks.length-1
+ );
+
+ const url=tracks[index];
+
+ if(audio && audio.src===url) return;
+
+ if(audio){
+   audio.pause();
+   audio.currentTime=0;
  }
+
+ audio=new Audio(url);
+ audio.loop=true;
+ audio.volume=.45;
+
+ audio.play().catch(()=>{
+   /* Browser autoplay restriction */
+ });
 }
 
-/* MAGIC */
-function magicBurst(){
- burst(innerWidth/2,innerHeight/2);
-}
 
-/* BALLOON */
-function balloonPop(){
- burst(innerWidth/2,innerHeight/2);
+/* =========================================================
+   DOOR
+   ========================================================= */
+
+function openDoor(){
+
+ document.getElementById("door").classList.add("open");
+
  setTimeout(()=>{
-   go(5);
+   goScene(2);
+ },1800);
+}
+
+
+/* =========================================================
+   BALLOONS
+   ========================================================= */
+
+function popBalloon(el,index){
+
+ if(el.classList.contains("popped")) return;
+
+ const messages=[
+   surprise?.balloon1 || "You make ordinary days beautiful.",
+   surprise?.balloon2 || "Your smile is one of my favourite things.",
+   surprise?.balloon3 || "You make life feel a little warmer.",
+   surprise?.balloon4 || "I will always cherish our memories."
+ ];
+
+ el.classList.add("popped");
+
+ balloonCount++;
+
+ document.getElementById("reason").classList.add("show");
+
+ const reason=document.getElementById("reasonText");
+
+ if(reason) reason.innerText=messages[index];
+
+ if(balloonCount>=4){
+   setTimeout(()=>{
+     const next=document.getElementById("balloonNext");
+     if(next) next.style.display="block";
+   },400);
+ }
+}
+
+
+/* create popup dynamically */
+
+document.body.insertAdjacentHTML("beforeend",`
+<div id="reason" class="reason">
+ <h2>💌</h2>
+ <p id="reasonText"></p>
+ <button onclick="closeReason()">Close</button>
+</div>
+`);
+
+
+function closeReason(){
+ document.getElementById("reason").classList.remove("show");
+}
+
+
+/* =========================================================
+   GIFT
+   ========================================================= */
+
+function openGift(){
+
+ const gift=document.getElementById("gift");
+
+ gift.classList.add("open");
+
+ setTimeout(()=>{
+   document.getElementById("giftNext").style.display="block";
  },900);
 }
 
-/* COUNTDOWN */
-function countdown(){
- let n=3;
- const c=document.getElementById("counter");
- c.innerText=n;
 
- const timer=setInterval(()=>{
-   n--;
+/* =========================================================
+   LETTER
+   ========================================================= */
 
-   if(n<=0){
-     clearInterval(timer);
-     go(13);
-     playMusic(4);
-   }else{
-     c.innerText=n;
-   }
- },1300);
+function openLetter(){
+
+ document.getElementById("envelope").style.display="none";
+ document.getElementById("letterBox").style.display="block";
 }
 
-/* CAKE */
-function blowCake(){
- document.getElementById("cake").classList.add("off");
 
- burst(innerWidth/2,innerHeight/2);
+/* =========================================================
+   CAKE
+   ========================================================= */
+
+function blowCandles(){
+
+ document.querySelectorAll(".flame").forEach(f=>{
+   f.style.display="none";
+ });
+
+ document.getElementById("cakeNext").style.display="block";
+ showToast("Wish kar liya? ❤️");
+}
+
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+
+function showToast(text){
+
+ const toast=document.getElementById("toast");
+
+ toast.innerText=text;
+ toast.style.display="block";
 
  setTimeout(()=>{
-   go(14);
-   celebrate();
- },1400);
+   toast.style.display="none";
+ },2500);
 }
 
-/* PARTICLES */
-function burst(x,y){
 
- const things=["❤️","💖","💕","💗","✨","⭐","💫","🌸","🌹"];
+function escapeHtml(value){
 
- for(let i=0;i<35;i++){
-
-   const p=document.createElement("div");
-
-   p.style.position="fixed";
-   p.style.left=x+"px";
-   p.style.top=y+"px";
-   p.style.zIndex="500";
-   p.style.pointerEvents="none";
-   p.innerText=things[Math.floor(Math.random()*things.length)];
-
-   document.body.appendChild(p);
-
-   const angle=Math.random()*Math.PI*2;
-   const distance=70+Math.random()*180;
-
-   p.animate(
-    [
-     {transform:"translate(0,0) scale(1)",opacity:1},
-     {
-      transform:
-      "translate("+Math.cos(angle)*distance+"px,"+
-      Math.sin(angle)*distance+"px) scale(.2)",
-      opacity:0
-     }
-    ],
-    {
-     duration:800+Math.random()*700,
-     easing:"ease-out"
-    }
-   );
-
-   setTimeout(()=>p.remove(),1600);
- }
+ return String(value)
+   .replaceAll("&","&amp;")
+   .replaceAll("<","&lt;")
+   .replaceAll(">","&gt;")
+   .replaceAll('"',"&quot;")
+   .replaceAll("'","&#039;");
 }
 
-/* FLOATING HEARTS */
-function floatingHearts(){
 
- const things=["❤️","💖","💕","💗","✨","🌸"];
+/* =========================================================
+   START
+   ========================================================= */
 
- for(let i=0;i<20;i++){
-
-  setTimeout(()=>{
-
-   const h=document.createElement("div");
-
-   h.className="particle";
-   h.innerText=things[Math.floor(Math.random()*things.length)];
-
-   h.style.left=Math.random()*100+"%";
-   h.style.bottom="-30px";
-
-   document.body.appendChild(h);
-
-   setTimeout(()=>h.remove(),5000);
-
-  },i*180);
- }
-}
-
-/* CELEBRATION */
-function celebrate(){
-
- floatingHearts();
-
- const things=["🎉","🎊","✨","❤️","💖","⭐","🌸","💫"];
-
- for(let i=0;i<90;i++){
-
-  setTimeout(()=>{
-
-   const c=document.createElement("div");
-
-   c.className="confetti";
-   c.innerText=things[Math.floor(Math.random()*things.length)];
-
-   c.style.left=Math.random()*100+"%";
-   c.style.animationDuration=(3+Math.random()*3)+"s";
-
-   document.body.appendChild(c);
-
-   setTimeout(()=>c.remove(),7000);
-
-  },i*35);
- }
-}
-
-/* REPLAY */
-function restart(){
-
- document.getElementById("cake").classList.remove("off");
-
- go(1);
-
- music.pause();
- music.currentTime=0;
- musicBtn.innerText="🎵";
-}
+loadSurprise();
 
 </script>
 
