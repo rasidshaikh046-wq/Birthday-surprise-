@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A Little Surprise ❤️</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Georgia,"Times New Roman",serif;background:#090512;color:#fff}
+body{overflow-x:hidden}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.card{width:min(680px,94vw);padding:30px 22px;border:1px solid #ffffff22;border-radius:28px;background:#140a1fd9;box-shadow:0 25px 80px #0008;backdrop-filter:blur(12px)}
+h1{font-size:clamp(38px,9vw,68px);margin:0 0 18px;text-align:center}
+h2{font-size:32px;text-align:center}
+p{font-size:20px;line-height:1.65;color:#eee}
+.sub{text-align:center;color:#cfc3d8}
+.field{margin:20px 0}
+label{display:block;font-size:19px;margin-bottom:8px}
+input,textarea{width:100%;padding:17px 20px;border-radius:18px;border:1px solid #ffffff29;background:#1a1523;color:white;outline:none}
+textarea{min-height:145px;resize:vertical}
+.primary{width:100%;padding:17px 20px;border:0;border-radius:24px;background:linear-gradient(90deg,#ff168d,#9d4dff);color:#fff;font-weight:bold;font-size:20px}
+.secondary{padding:13px 18px;border:1px solid #ffffff33;border-radius:18px;background:#181220;color:white}
+.progress{height:8px;background:#21192c;border-radius:99px;overflow:hidden;margin-top:22px}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff2e9b,#b55cff);transition:.3s}
+.hint{text-align:center;color:#bcaec6;font-size:14px;margin-top:12px}
+.scene{position:relative;min-height:100vh;overflow:hidden;background:radial-gradient(circle at 50% 25%,#25123d,#090512 65%)}
+.scene-inner{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:30px 18px;position:relative;z-index:5}
+.center{text-align:center;max-width:760px}
+.eyebrow{letter-spacing:4px;text-transform:uppercase;color:#d8bddf;font-size:13px}
+.big{font-size:clamp(42px,10vw,82px);margin:10px 0}
+.glow{text-shadow:0 0 20px #ff50b8a6,0 0 55px #a050ff4d}
+.next{margin-top:24px;padding:14px 25px;border:0;border-radius:999px;background:#fff;color:#170b20;font-weight:bold}
+.door-wrap{perspective:1100px;width:min(330px,78vw);height:470px;margin:25px auto}
+.door-frame{height:100%;padding:12px;border-radius:22px;background:#30203d;box-shadow:0 25px 70px #000}
+.door{height:100%;border-radius:14px;background:linear-gradient(100deg,#24152f,#53324f);transform-origin:left center;transition:1.5s cubic-bezier(.2,.8,.2,1);position:relative;display:flex;align-items:center;justify-content:center;border:2px solid #7b5b78}
+.door.open{transform:rotateY(-112deg)}
+.knob{position:absolute;right:25px;width:22px;height:22px;border-radius:50%;background:#e6c17a;box-shadow:0 0 12px #e6c17a}
+.balloons{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin:35px 0}
+.balloon{width:115px;height:145px;border-radius:52%;border:0;color:white;font-weight:bold;background:radial-gradient(circle at 35% 25%,#fff8,transparent 14%),linear-gradient(135deg,#ff315e,#9b27ff);box-shadow:0 18px 30px #0008;position:relative;transition:.3s}
+.balloon:after{content:"";position:absolute;bottom:-30px;left:50%;width:1px;height:35px;background:#ddd}
+.balloon:active{transform:scale(.9)}
+.reason{min-height:75px;margin:14px 0;padding:18px;border-radius:18px;background:#17101f;border:1px solid #4b3a50;text-align:center}
+.gift{font-size:110px;filter:drop-shadow(0 15px 25px #000);transition:.6s}
+.gift.open{transform:scale(1.15) rotate(-3deg)}
+.envelope{font-size:110px;cursor:pointer}
+.letter{white-space:pre-wrap;text-align:left;background:#f5e8c9;color:#3a2630;padding:28px;border-radius:8px;line-height:1.8;font-size:19px;box-shadow:0 20px 50px #0008;transform:rotate(-1deg)}
+.photos{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:25px 0}
+.photos img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:18px;border:2px solid #ffffff33;box-shadow:0 12px 30px #0008}
+.tree{position:relative;width:min(420px,90vw);height:360px;margin:10px auto}
+.trunk{position:absolute;bottom:20px;left:50%;width:30px;height:210px;background:linear-gradient(90deg,#4b2b22,#9b5a3b,#3c211b);transform:translateX(-50%) rotate(2deg);border-radius:20px}
+.heart-photo{position:absolute;width:88px;height:88px;object-fit:cover;border:3px solid #fff;border-radius:50%;box-shadow:0 8px 25px #0009}
+.p1{left:12%;top:65px}.p2{left:38%;top:25px}.p3{right:8%;top:70px}.p4{left:22%;top:145px}.p5{right:25%;top:145px}
+.cake{font-size:120px;filter:drop-shadow(0 20px 35px #000);cursor:pointer}
+.fireworks{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.spark{position:absolute;width:4px;height:4px;border-radius:50%;animation:spark 1.5s ease-out forwards}
+@keyframes spark{from{opacity:1;transform:translate(0,0) scale(1)}to{opacity:0;transform:translate(var(--x),var(--y)) scale(.2)}}
+#toast{position:fixed;left:50%;bottom:25px;transform:translateX(-50%);z-index:99;background:#fff;color:#17101e;padding:14px 20px;border-radius:18px;max-width:90vw;text-align:center;box-shadow:0 15px 40px #0008}
+.loading{position:fixed;inset:0;background:#090512ef;z-index:100;display:flex;align-items:center;justify-content:center;text-align:center}
+.spinner{width:48px;height:48px;border:4px solid #ffffff33;border-top-color:#ff39a8;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 18px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.creator-note{font-size:13px;color:#aa9db1}
+@media(max-width:500px){.photos{grid-template-columns:1fr 1fr}.heart-photo{width:72px;height:72px}.tree{height:320px}.door-wrap{height:410px}}
+</style>
+</head>
+
+<body>
+<div id="app"></div>
+<div id="toast" class="hidden"></div>
+<div id="loading" class="loading hidden">
+<div><div class="spinner"></div><div id="loadingText">Creating your surprise...</div></div>
+</div>
+
+<script>
+window.SUPABASE_URL="https://dkjvctvuprkouvjzujrg.supabase.co";
+window.SUPABASE_KEY="sb_publishable_V_m8nrWN8J5pQNpSWnaJBw_pueuW-NN";
+window.db=window.supabase.createClient(window.SUPABASE_URL,window.SUPABASE_KEY);
+
+const BUCKET="birthday-media",TABLE="surprises";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+function toast(m){$("toast").textContent=m;$("toast").classList.remove("hidden");setTimeout(()=>$("toast").classList.add("hidden"),3500)}
+function loading(on,t="Please wait..."){$("loadingText").textContent=t;$("loading").classList.toggle("hidden",!on)}
+function ext(n){let p=n.lastIndexOf(".");return p>=0?n.slice(p+1).toLowerCase():"bin"}
+function uid(){return crypto.randomUUID?crypto.randomUUID():Date.now()+"-"+Math.random().toString(16).slice(2)}
+
+function creator(){
+$("app").innerHTML=`
+<div class="screen"><div class="card">
+<h1>✨ Create Your Surprise</h1>
+<p class="sub">Ek chhota sa setup karo.<br>Baaki surprise khud cinematic banega ❤️</p>
+
+<div class="field"><label>Recipient ka naam</label><input id="recipient" placeholder="Naam"></div>
+<div class="field"><label>Tumhara naam</label><input id="sender" placeholder="Tumhara naam"></div>
+<div class="field"><label>Age (optional)</label><input id="age" placeholder="Age"></div>
+<div class="field"><label>Birthday (optional)</label><input id="birthday" placeholder="Birthday"></div>
+
+<div class="field"><label>🎈 Balloon 1 — reason</label><input id="b1"></div>
+<div class="field"><label>🎈 Balloon 2 — reason</label><input id="b2"></div>
+<div class="field"><label>🎈 Balloon 3 — reason</label><input id="b3"></div>
+<div class="field"><label>🎈 Balloon 4 — reason</label><input id="b4"></div>
+
+<div class="field"><label>💌 Birthday letter</label><textarea id="letter" placeholder="Apne dil ki baat yahan likho..."></textarea></div>
+
+<div class="field"><label>📸 Photos — maximum 5</label>
+<input id="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+<div class="hint">JPG/PNG/WEBP • maximum 5 • 5MB each</div></div>
+
+<div class="field"><label>🎵 Music — maximum 4 MP3 files</label>
+<input id="music" type="file" accept="audio/mpeg,.mp3" multiple>
+<div class="hint">MP3 only • 10MB each</div></div>
+
+<button class="primary" onclick="createSurprise()">✨ Craft My Surprise</button>
+<div class="progress"><i id="bar"></i></div>
+<p class="creator-note">Photos/music optional hain.</p>
+</div></div>`;
+
+$("photos").onchange=function(){if(this.files.length>5){toast("Maximum 5 photos allowed.");this.value=""}};
+$("music").onchange=function(){if(this.files.length>4){toast("Maximum 4 MP3 files allowed.");this.value=""}};
+}
+
+async function uploadFiles(files,folder,types,max){
+let urls=[];
+for(let i=0;i<files.length;i++){
+let f=files[i];
+if(!types.includes(f.type)&&!(folder==="music"&&ext(f.name)==="mp3"))
+throw Error(folder==="music"?"Sirf MP3 music file select karo.":"Sirf JPG/PNG/WEBP photo select karo.");
+if(f.size>max)throw Error(f.name+" bahut badi hai.");
+let path=`${folder}/${Date.now()}_${uid()}.${ext(f.name)}`;
+let {error}=await window.db.storage.from(BUCKET).upload(path,f,{contentType:f.type||undefined});
+if(error)throw Error("Media upload failed: "+error.message);
+let {data}=window.db.storage.from(BUCKET).getPublicUrl(path);
+urls.push(data.publicUrl);
+$("bar").style.width=Math.round(((i+1)/files.length)*55)+"%";
+}
+return urls;
+}
+
+async function createSurprise(){
+let recipient=$("recipient").value.trim(),sender=$("sender").value.trim();
+if(!recipient||!sender){toast("Recipient aur tumhara naam bhar do.");return}
+let photos=[...$("photos").files],music=[...$("music").files];
+if(photos.length>5||music.length>4){toast("Photo max 5 aur music max 4 hai.");return}
+if(music.some(f=>ext(f.name)!=="mp3")){toast("Music mein MP3 file hi select karo.");return}
+
+try{
+loading(true,"Saving your surprise...");
+$("bar").style.width="5%";
+let photoUrls=photos.length?await uploadFiles(photos,"photos",["image/jpeg","image/png","image/webp"],5242880):[];
+$("bar").style.width="60%";
+let musicUrls=music.length?await uploadFiles(music,"music",["audio/mpeg"],10485760):[];
+$("bar").style.width="75%";
+
+let payload={
+recipient_name:recipient,sender_name:sender,age:$("age").value.trim(),
+birthday:$("birthday").value.trim(),balloon1:$("b1").value.trim(),
+balloon2:$("b2").value.trim(),balloon3:$("b3").value.trim(),
+balloon4:$("b4").value.trim(),letter:$("letter").value.trim(),
+photo_urls:photoUrls,music_urls:musicUrls};
+
+let {data,error}=await window.db.from(TABLE).insert(payload).select("id").single();
+if(error)throw Error("Database error: "+error.message);
+
+$("bar").style.width="100%";
+let url=location.origin+location.pathname+"?s="+encodeURIComponent(data.id);
+loading(false);showCreated(url);
+}catch(e){loading(false);console.error(e);toast(e.message||"Surprise create nahi hua.")}
+}
+
+function showCreated(url){
+$("app").innerHTML=`
+<div class="screen"><div class="card" style="text-align:center">
+<div style="font-size:70px">🎉</div>
+<h1 style="font-size:42px">Surprise Ready!</h1>
+<p>Link successfully create ho gaya ❤️</p>
+<input id="shareUrl" value="${esc(url)}" readonly>
+<br><br>
+<button class="primary" onclick="navigator.clipboard.writeText($('shareUrl').value).then(()=>toast('Link copied ❤️'))">🔗 Copy Surprise Link</button>
+<br><br>
+<button class="secondary" onclick="location.href='${url}'">▶ Preview Surprise</button>
+</div></div>`;
+}
+
+let data=null,music=[],musicIndex=0,audio=null;
+
+async function loadSurprise(id){
+let {data:row,error}=await window.db.from(TABLE).select("*").eq("id",id).single();
+if(error||!row){creator();toast("Surprise nahi mila.");return}
+data=row;music=Array.isArray(row.music_urls)?row.music_urls:[];
+startWelcome();
+}
+
+function scene(html){
+$("app").innerHTML=`<div class="scene"><div class="scene-inner">${html}</div></div>`;
+}
+function startMusic(){
+if(!music.length)return;
+if(!audio)audio=new Audio();
+audio.src=music[musicIndex%music.length];
+audio.volume=.75;
+audio.onended=()=>{musicIndex++;startMusic()};
+audio.play().catch(()=>{});
+}
+function musicButton(){return music.length?`<button class="secondary" onclick="startMusic()">🎵 Play music</button>`:""}
+function next(fn){return `<button class="next" onclick="${fn}">Tap to continue →</button>`}
+
+function startWelcome(){
+scene(`<div class="center">
+<div class="eyebrow">A little surprise for</div>
+<div class="big glow">${esc(data.recipient_name)} ❤️</div>
+<p>Ek chhoti si duniya tumhare liye banayi hai...</p>
+${musicButton()} ${next("openDoor()")}
+</div>`);
+}
+
+function openDoor(){
+startMusic();
+scene(`<div class="center">
+<div class="eyebrow">Chapter 01</div><h2>The door</h2>
+<div class="door-wrap"><div class="door-frame">
+<div class="door" id="door"><span class="knob"></span>🚪</div>
+</div></div>
+<p>Darwaza kholne ke liye tap karo.</p>
+<button class="next" onclick="this.disabled=true;$('door').classList.add('open');setTimeout(showBalloons,1300)">Open the door ✨</button>
+</div>`);
+}
+
+function showBalloons(){
+let rs=[data.balloon1,data.balloon2,data.balloon3,data.balloon4];
+scene(`<div class="center">
+<div class="eyebrow">Chapter 02</div><h2>Four little reasons 🎈</h2>
+<p>Har balloon ke andar ek chhoti si baat chhupi hai.</p>
+<div class="balloons">${rs.map((r,i)=>`<button class="balloon" onclick="popBalloon(this,${i})">🎈</button>`).join("")}</div>
+<div id="reasonBox"></div>${next("showGift()")}
+</div>`);
+}
+
+function popBalloon(el,i){
+el.style.visibility="hidden";
+let r=[data.balloon1,data.balloon2,data.balloon3,data.balloon4][i]||"Because you are special.";
+$("reasonBox").innerHTML=`<div class="reason">❤️ ${esc(r)}</div>`;
+}
+
+function showGift(){
+scene(`<div class="center">
+<div class="eyebrow">Chapter 03</div><h2>Something is waiting...</h2>
+<div class="gift" id="gift">🎁</div>
+<p>Gift par tap karo.</p>
+<button class="next" onclick="$('gift').classList.add('open');setTimeout(showMemories,700)">Open gift 🎁</button>
+</div>`);
+}
+
+function showMemories(){
+let ps=Array.isArray(data.photo_urls)?data.photo_urls:[];
+let imgs=ps.map((u,i)=>`<img src="${esc(u)}" alt="Memory ${i+1}">`).join("");
+if(!imgs)imgs=`<div class="reason">📸 Photos abhi add nahi ki gayi hain.<br>Phir bhi surprise continue ho raha hai ❤️</div>`;
+scene(`<div class="center">
+<div class="eyebrow">Chapter 04</div><h2>Our little memories 📸</h2>
+<div class="photos">${imgs}</div>${next("showLetter()")}
+</div>`);
+}
+
+function showLetter(){
+scene(`<div class="center">
+<div class="eyebrow">Chapter 05</div><h2>Ek khat tumhare naam 💌</h2>
+<div class="envelope" onclick="$('letterCard').classList.remove('hidden');this.classList.add('hidden')">💌</div>
+<div id="letterCard" class="letter hidden">${esc(data.letter||"Happy Birthday ❤️")}</div>
+<br>${next("showTree()")}
+</div>`);
+}
+
+function showTree(){
+let ps=Array.isArray(data.photo_urls)?data.photo_urls:[];
+let cls=["p1","p2","p3","p4","p5"];
+let imgs=ps.slice(0,5).map((u,i)=>`<img class="heart-photo ${cls[i]}" src="${esc(u)}">`).join("");
+scene(`<div class="center">
+<div class="eyebrow">Chapter 06</div><h2>Our little tree 🌳</h2>
+<div class="tree"><div class="trunk"></div>${imgs}</div>
+<p>Har memory ek chhoti si leaf jaisi hai...</p>${next("showCake()")}
+</div>`);
+}
+
+function showCake(){
+scene(`<div class="center">
+<div class="eyebrow">Chapter 07</div><h2>Make a wish 🎂</h2>
+<div class="cake" onclick="blowCandles(this)">🎂</div>
+<p id="cakeText">Cake par tap karke candles blow karo.</p>
+</div>`);
+}
+
+function blowCandles(el){
+el.textContent="🍰";
+$("cakeText").textContent="Wish made... ❤️";
+setTimeout(showFinal,900);
+}
+
+function showFinal(){
+scene(`<div class="fireworks" id="fw"></div>
+<div class="center">
+<div class="eyebrow">The final chapter</div>
+<div style="font-size:75px">❤️</div>
+<h1 class="glow">Happy Birthday,<br>${esc(data.recipient_name)}!</h1>
+<p>May your smile always stay this beautiful.<br><br>— ${esc(data.sender_name)}</p>
+${musicButton()}<br><br>
+<button class="next" onclick="moreFireworks()">🎆 Again!</button>
+</div>`);
+moreFireworks();
+setInterval(moreFireworks,2300);
+}
+
+function moreFireworks(){
+let box=$("fw");if(!box)return;
+for(let n=0;n<3;n++){
+setTimeout(()=>{
+let x=15+Math.random()*70,y=12+Math.random()*45;
+let colors=["#ff4da6","#ffd166","#7df9ff","#fff","#b77dff"];
+let c=colors[Math.floor(Math.random()*colors.length)];
+for(let i=0;i<42;i++){
+let a=Math.PI*2*i/42,dist=80+Math.random()*120;
+let s=document.createElement("i");
+s.className="spark";
+s.style.left=x+"%";
+s.style.top=y+"%";
+s.style.background=c;
+s.style.setProperty("--x",Math.cos(a)*dist+"px");
+s.style.setProperty("--y",Math.sin(a)*dist+"px");
+s.style.boxShadow=`0 0 8px ${c}`;
+box.appendChild(s);
+setTimeout(()=>s.remove(),1600);
+}
+},n*260);
+}
+}
+
+let params=new URLSearchParams(location.search);
+if(params.get("s"))loadSurprise(params.get("s"));
+else creator();
+</script>
+</body>
+</html>
